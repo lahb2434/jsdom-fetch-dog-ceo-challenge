@@ -1,6 +1,7 @@
 console.log('%c HI', 'color: firebrick')
 
 document.addEventListener("DOMContentLoaded", () => {
+
 const imgUrl = "https://dog.ceo/api/breeds/image/random/4"
 const breedUrl = 'https://dog.ceo/api/breeds/list/all'
 const dogBreedsUl = document.getElementById('dog-breeds')
@@ -21,23 +22,35 @@ function fetchImg(data){
   });
 };
 
-dataFetcher(imgUrl, fetchImg);
-
 function fetchBreedInfo(data) {
   const dogBreeds = Object.keys(data.message)
   dogBreeds.forEach( breed => {
-    dogBreedsUl.innerHTML += `<li> ${breed} </li>`;
+    postBreed(breed)
     dogBreedsCollection.push(breed);
   });
 };
 
-dataFetcher(breedUrl, fetchBreedInfo)
+function postBreed(breed) {
+    const li = document.createElement("li");
+    li.innerHTML = breed;
+    li.addEventListener("click", changeColor);
+    dogBreedsUl.appendChild(li)
+};
+      
+function changeColor(thing) {
+  thing.target.style.color = "yellowgreen";
+};
+
+dataFetcher(imgUrl, fetchImg);
+dataFetcher(breedUrl, fetchBreedInfo);
+
 
 // Event Listener
 breedDropdown.addEventListener('change', event => {
-  const breedsFiltered = dogBreedsCollection.filter(a => a[0] == event.target.value)
+  const breedsFiltered = dogBreedsCollection.filter(breed => breed.startsWith(event.target.value));
   dogBreedsUl.innerHTML = '';
-  breedsFiltered.forEach( breed => dogBreedsUl.innerHTML += `<li> ${breed} </li>` );
+  breedsFiltered.forEach( breed => postBreed(breed));
 });
 
 });
+
