@@ -37,13 +37,13 @@ function postBreed(breed) {
     dogBreedsUl.appendChild(li)
 };
       
-function changeColor(thing) {
-  thing.target.style.color = "yellowgreen";
+function changeColor(event) {
+  event.target.style.color = "yellowgreen";
 };
+
 
 dataFetcher(imgUrl, fetchImg);
 dataFetcher(breedUrl, fetchBreedInfo);
-
 
 // Event Listener
 breedDropdown.addEventListener('change', event => {
